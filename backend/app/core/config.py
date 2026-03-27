@@ -34,7 +34,7 @@ class Config:
     
     # Application Settings
     LOG_LEVEL: str = os.getenv('LOG_LEVEL', 'INFO')
-    LOG_FILE: str = os.getenv('LOG_FILE', 'logs/app.log')
+    LOG_FILE: Optional[str] = os.getenv('LOG_FILE', None)  # None = stdout
     MAX_BATCH_STOCKS: int = int(os.getenv('MAX_BATCH_STOCKS', '5'))
     MAX_HISTORICAL_RECORDS: int = int(os.getenv('MAX_HISTORICAL_RECORDS', '5'))
     
@@ -66,5 +66,9 @@ class Config:
         import logging
         return getattr(logging, cls.LOG_LEVEL.upper(), logging.INFO)
 
-# Validate configuration on module import
-Config.validate()
+# Validate configuration on module import (soft check)
+try:
+    Config.validate()
+except ValueError as e:
+    import logging as _log
+    _log.warning(f"Config validation warning: {e} - App will start with defaults.")

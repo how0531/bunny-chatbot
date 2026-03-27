@@ -14,8 +14,8 @@ try:
     service = StockService()
     logger.info("Flask application initialized successfully")
 except Exception as e:
-    logger.critical(f"Failed to initialize StockService: {e}")
-    raise
+    logger.critical(f"StockService init failed: {e}. App starting in degraded mode.")
+    service = None
 
 
 @app.route('/')
@@ -41,6 +41,9 @@ def chat():
             return jsonify({
                 'response': "⚠️ **Sophia 的安全警告**：您的請求過於頻繁，請稍候 60 秒再進行下一輪分析。"
             })
+
+        if not service:
+            return jsonify({'response': '服務初始化失敗，請確認資料庫連線設定。'}), 503
 
         if not message:
             return jsonify({'response': '請輸入股票代號'})

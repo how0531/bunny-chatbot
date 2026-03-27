@@ -1,0 +1,4 @@
+# AlphaMemo Cookies
+# Saved cookies for authenticated scraping
+# DO NOT COMMIT THIS FILE TO GIT
+*.json

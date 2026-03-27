@@ -8,3 +8,5 @@ Werkzeug==3.0.1
 tavily-python>=0.7.0
 crawl4ai>=0.3.0
 gunicorn==21.2.0
+fastmcp==2.14.4
+mcp==1.2.0
